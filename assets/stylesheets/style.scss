@@ -1,5 +1,10 @@
 @import "bootstrap-sass/bootstrap";
 @import "bootstrap-social/bootstrap-social";
+@import "font-awesome/font-awesome";
+
+$fa-font-path:	"../fonts/font-awesome";
+
+@import "font-awesome/path";
 
 body {
 	padding-top: 70px;

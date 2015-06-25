@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="sellsukiFacebook">
 <head>
 	<title>Sellsuki - Facebook comment</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,61 +7,23 @@
 	<link rel="stylesheet" href="assets/stylesheets/style.css">
 </head>
 <body>
-	<div class="container">
+	<div class="container" ng-controller="mainController">
 		<div class="row">
-			<div class="col-md-4 col-md-offset-4">
-				<button class="btn btn-block btn-social btn-facebook" scope="public_profile,email" onclick="fbLogin()">
+			<div class="col-md-4 col-md-offset-4" ng-if="user == null">
+				<button class="btn btn-block btn-social btn-facebook" scope="public_profile,email" ng-click="fbLogin()">
 					<i class="fa fa-facebook"></i> Sign in with Facebook
 				</button>
 			</div>
-			<div id="status"></div>
+			<div class="col-md-4 col-md-offset-4" ng-if="user != null">
+				Login !!!
+				{{user}}
+			</div>
 		</div>
 	</div>
-</div>
-<script>
-function fbCheckLogin(){
-	FB.getLoginStatus(function(response){
-		
-	});
-}
-	function fbLogin(){
-		FB.login(function(response){
-			console.log('Do login!');
-			if (response.authResponse) {
-				console.log('Welcome!  Fetching your information.... ');
-				access_token = response.authResponse.accessToken;
-				user_id = response.authResponse.userID;
-
-				FB.api('/me', function(response) {
-					user_email = response.email;             
-				});
-
-			} else {
-            	console.log('User cancelled login or did not fully authorize.');
-        	}
-        }, {
-        	scope: 'public_profile,email'
-        });
-	}
-
-	window.fbAsyncInit = function() {
-		FB.init({
-			appId      : '958384294182592',
-			oauth      : true,
-			status  : true,
-			cookie  : true,
-			xfbml      : true,
-			version    : 'v2.3'
-		});
-	};
-
-	(function(d, s, id){
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) {return;}
-		js = d.createElement(s); js.id = id;
-		js.src = "//connect.facebook.net/en_US/sdk.js";
-		fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-</script>
+	<script type="text/javascript" src="assets/js/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/angular/angular.min.js"></script>
+	<script type="text/javascript" src="assets/js/angular-route/angular-route.min.js"></script>
+	<script type="text/javascript" src="assets/js/script.js"></script>
+	<script type="text/javascript" src="assets/js/service.js"></script>
 </body>
 </html>
