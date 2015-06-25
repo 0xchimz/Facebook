@@ -1,5 +1,7 @@
 node_modules
 bower_components
-assets
-!assets/stylesheets/style.scss
-!assets/js/action.js
+assets/stylesheets/*
+!assets/stylesheets/*.scss
+assets/js/*
+!assets/js/*.js
+assets/fonts
