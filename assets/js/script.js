@@ -3,29 +3,26 @@
 *
 * Load all Facebook page's comment order by update time, which seller can reply comment.
 */
-var app = angular.module('sellsukiFacebook', ['ngRoute', 'Service']);
+var app = angular.module('sellsukiFacebook', ['ui.router', 'Service']);
 
-app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-	$routeProvider
-	.when('/', {
-		templateUrl : 'template/index.html',
-		controller : 'mainController'
+	$urlRouterProvider.otherwise("/login");
+
+	$stateProvider
+	.state('login', {
+		url: '/login/',
+		templateUrl : 'templates/login.tmpl.html',
+		controller : 'loginController'
 	})
-	
-	.when('/read', {
-		templateUrl : 'template/index.html',
-		controller : 'mainController'
-	})
-
-	.otherwise({
-		redirectTo : '/'
+	.state('home', {
+		url: '/home/',
+		templateUrl : 'templates/home.tmpl.html',
+		controller : 'homeController'
 	});
-
-	$locationProvider.html5Mode(true);
 }]);
 
-app.run(['$rootScope', '$window', 'facebookService', function($rootScope, $window, sAuth){
+app.run(['$rootScope', '$window', '$location', 'facebookService', function($rootScope, $window, $location, sAuth){
 	
 	$rootScope.user = null;
 
@@ -39,7 +36,7 @@ app.run(['$rootScope', '$window', 'facebookService', function($rootScope, $windo
 			version		: 'v2.3'
 		});
 
-		sAuth.watchAuthenticationStatusChange();
+		sAuth.fbAuthStatus();
 	};
 
 	(function(d){
@@ -56,11 +53,24 @@ app.run(['$rootScope', '$window', 'facebookService', function($rootScope, $windo
 	}(document));
 }]);
 
-app.controller('mainController', ['$scope', 'facebookService', function($scope, sAuth){
-	
+app.controller('loginController', ['$scope', 'facebookService', function($scope, sAuth){
+
+	sAuth.isLogin();
+
 	$scope.fbLogin = function(){
 		console.log('Do login!');
 		sAuth.fbLogin();
+	};
+
+}]);
+
+app.controller('homeController', ['$scope', '$location','facebookService', function($scope, $location, sAuth){
+
+	sAuth.isLogin();
+
+	$scope.fbLogout = function(){
+		console.log('Do logout!');
+		sAuth.fbLogout();
 	};
 
 }]);
