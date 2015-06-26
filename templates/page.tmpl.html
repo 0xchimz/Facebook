@@ -1,8 +1,11 @@
-<div class="row" ng-init="init()">
-	<strong>{{currentPage.name}}</strong>
+<div ng-init="init()">
+	<h3>{{currentPage.name}}</h3>
 </div>
 <div class="row">
 	<div class="list-group">
-		<a href="#" class="list-group-item" ng-repeat="item in pageNotification | orderBy:'-updated_time'">{{item.title}}</a>
+		<a href="#" class="list-group-item" ng-repeat="item in pageObjs | orderBy:'-updated_time'">{{item.title}}</a>
+	</div>
+	<div class="text-center">
+		<a class="btn btn-danger btn-sm" ui-sref="^"><i class="glyphicon glyphicon-remove"></i> CLOSE</a>	
 	</div>
 </div>

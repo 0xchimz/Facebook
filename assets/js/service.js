@@ -5,7 +5,7 @@
  */
 /* global angular */
 /* global FB */
-var service = angular.module('Service', [])
+var service = angular.module('sellsukiService', [])
 
 service.factory('facebookService', ['$rootScope', '$state', function ($rootScope, $state) {
   this.user = {}
@@ -85,17 +85,17 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
     fbAPI({
       path: 'me/accounts',
       variable: {
-        fields: 'id,name,access_token',
+        fields: 'id,name',
         limits: '250'
       }
     }, callback)
   }
 
-  var fbGetNotification = function (params, callback) {
+  var fbGetPageNotification = function (params, callback) {
     fbAPI({
-      path: params.id,
+      path: params.pageId,
       variable: {
-        fields: 'notifications.include_read(true){updated_time,object,title}',
+        fields: 'notifications.include_read(true){updated_time,object,title,application}',
         limits: '250',
         access_token: params.accessToken
       }
@@ -104,8 +104,20 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
 
   var fbGetPageInformation = function (params, callback) {
     fbAPI({
-      path: params.id,
-      variable: {}
+      path: params.pageId,
+      variable: {
+        fields: 'name,access_token'
+      }
+    }, callback)
+  }
+
+  var fbObject = function (params, callback) {
+    fbAPI({
+      path: params.objId,
+      variable: {
+        fields: '',
+        access_token: params.accessToken
+      }
     }, callback)
   }
 
@@ -121,7 +133,8 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
     fbCheckAuth: fbCheckAuth,
     isLogin: isLogin,
     fbGetPageList: fbGetPageList,
-    fbGetNotification: fbGetNotification,
-    fbGetPageInformation: fbGetPageInformation
+    fbGetPageNotification: fbGetPageNotification,
+    fbGetPageInformation: fbGetPageInformation,
+    fbObject: fbObject
   }
 }])
