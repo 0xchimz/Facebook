@@ -1,0 +1,28 @@
+{
+  "name": "Facebook-Sellsuki",
+  "version": "1.0.0",
+  "description": "[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard) [![Build Status](https://travis-ci.org/chinclubi/Gmail-Sellsuki.svg?branch=AngularJS)](https://travis-ci.org/chinclubi/Gmail-Sellsuki)",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "fs": "^0.0.2",
+    "path": "^0.11.14",
+    "http": "^0.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-ruby-sass": "^1.0.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chinclubi/Facebook.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chinclubi/Facebook/issues"
+  },
+  "homepage": "https://github.com/chinclubi/Facebook"
+}
