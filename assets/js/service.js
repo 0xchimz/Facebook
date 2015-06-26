@@ -95,10 +95,17 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
     fbAPI({
       path: params.id,
       variable: {
-        fields: 'notifications.include_read(true)',
+        fields: 'notifications.include_read(true){updated_time,object,title}',
         limits: '250',
         access_token: params.accessToken
       }
+    }, callback)
+  }
+
+  var fbGetPageInformation = function (params, callback) {
+    fbAPI({
+      path: params.id,
+      variable: {}
     }, callback)
   }
 
@@ -114,6 +121,7 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
     fbCheckAuth: fbCheckAuth,
     isLogin: isLogin,
     fbGetPageList: fbGetPageList,
-    fbGetNotification: fbGetNotification
+    fbGetNotification: fbGetNotification,
+    fbGetPageInformation: fbGetPageInformation
   }
 }])

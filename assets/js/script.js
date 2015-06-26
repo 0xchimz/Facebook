@@ -95,15 +95,26 @@ app.controller('homeController', ['$rootScope', '$scope', '$state', 'facebookSer
 }])
 
 app.controller('pageController', ['$scope', '$stateParams', 'facebookService', function ($scope, $stateParams, sAuth) {
-  $scope.pageId = $stateParams.pId
-  $scope.accessToken = $stateParams.access_token
-  sAuth.fbGetNotification({
-    id: $stateParams.pId,
-    accessToken: $stateParams.access_token
-  }, function (response) {
-    console.log(response)
-  })
+  $scope.currentPage = {}
+  $scope.pageNotification = []
   $scope.init = function () {
-    console.log($stateParams.pId)
+    sAuth.fbGetNotification({
+      id: $stateParams.pId,
+      accessToken: $stateParams.access_token
+    }, function (response) {
+      console.log(response.notifications.data)
+      $scope.$apply(function () {
+        $scope.pageNotification = response.notifications.data
+      })
+    })
+
+    sAuth.fbGetPageInformation({
+      id: $stateParams.pId
+    }, function (response) {
+      console.log(response)
+      $scope.$apply(function () {
+        $scope.currentPage.name = response.name
+      })
+    })
   }
 }])

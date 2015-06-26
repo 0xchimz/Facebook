@@ -1,3 +1,8 @@
+<div class="row" ng-init="init()">
+	<strong>{{currentPage.name}}</strong>
+</div>
 <div class="row">
-	Page {{pageId}} {{accessToken}}
+	<div class="list-group">
+		<a href="#" class="list-group-item" ng-repeat="item in pageNotification | orderBy:'-updated_time'">{{item.title}}</a>
+	</div>
 </div>
