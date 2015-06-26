@@ -3,10 +3,20 @@
  *
  * All service is here.
  */
+/* global angular */
+/* global FB */
 var service = angular.module('Service', [])
 
 service.factory('facebookService', ['$rootScope', '$state', function ($rootScope, $state) {
   this.user = {}
+
+  var goPageList = function () {
+    $state.go('page', {})
+  }
+
+  var goLoginPage = function () {
+    $state.go('login', {})
+  }
 
   var fbUserInfo = function (callback) {
     FB.api('/me', function (res) {
@@ -19,13 +29,11 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
 
   var fbAuthStatus = function () {
     FB.Event.subscribe('auth.authResponseChange', function (res) {
-      console.log(res)
       if (res.status === 'connected') {
-        fbUserInfo(function () {
-          $state.go('home', {})
-        })
+        $rootScope.accessToken = res.authResponse.accessToken
+        fbUserInfo(goPageList)
       } else {
-        $state.go('login', {})
+        goLoginPage()
       }
     })
   }
@@ -43,11 +51,8 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
       console.log('Do login!')
       if (response.authResponse) {
         console.log('Welcome!  Fetching your information.... ')
-        access_token = response.authResponse.accessToken
-        console.log(access_token)
-        fbUserInfo(function () {
-          $state.go('home', {})
-        })
+        $rootScope.access_token = response.authResponse.accessToken
+        fbUserInfo(goPageList)
       } else {
         console.log('User cancelled login or did not fully authorize.')
       }
@@ -59,32 +64,46 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
   var fbCheckAuth = function () {
     FB.getLoginStatus(function (response) {
       if (response.status === 'connected') {
-        $state.go('home', {})
+        goPageList()
       } else if (response.status === 'not_authorized') {
-        $state.go('login', {})
+        goLoginPage()
       } else {
-        $state.go('login', {})
+        goLoginPage()
       }
     }, true)
   }
 
   var isLogin = function () {
     if ($rootScope.user != null) {
-      $state.go('home', {})
+      goPageList()
     } else {
-      $state.go('login', {})
+      goLoginPage()
     }
   }
 
-  var fbGetPageList = function () {
-    FB.api('me/accounts', {
-      fields: 'id,name,access_token',
-      limit: '100'
-    }, function (response) {
-      if (response && !response.error) {
-        console.log(response)
+  var fbGetPageList = function (callback) {
+    fbAPI({
+      path: 'me/accounts',
+      variable: {
+        fields: 'id,name,access_token',
+        limits: '250'
       }
-    })
+    }, callback)
+  }
+
+  var fbGetNotification = function (params, callback) {
+    fbAPI({
+      path: params.id,
+      variable: {
+        fields: 'notifications.include_read(true)',
+        limits: '250',
+        access_token: params.accessToken
+      }
+    }, callback)
+  }
+
+  var fbAPI = function (params, callback) {
+    FB.api(params.path, params.variable, callback)
   }
 
   return {
@@ -94,6 +113,7 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
     fbLogout: fbLogout,
     fbCheckAuth: fbCheckAuth,
     isLogin: isLogin,
-    fbGetPageList: fbGetPageList
+    fbGetPageList: fbGetPageList,
+    fbGetNotification: fbGetNotification
   }
 }])

@@ -13,19 +13,25 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 
   $stateProvider
     .state('login', {
-      url: '/login/',
+      url: '/login',
       templateUrl: 'templates/login.tmpl.html',
       controller: 'loginController'
     })
-    .state('home', {
-      url: '/home/',
+    .state('page', {
+      url: '/page',
       templateUrl: 'templates/home.tmpl.html',
       controller: 'homeController'
+    })
+    .state('page.comment', {
+      url: '/:pId?:access_token',
+      templateUrl: 'templates/page.tmpl.html',
+      controller: 'pageController'
     })
 }])
 
 app.run(['$rootScope', '$window', '$location', 'facebookService', function ($rootScope, $window, $location, sAuth) {
   $rootScope.user = null
+  $rootScope.accessToken = null
 
   $window.fbAsyncInit = function () {
     FB.init({
@@ -67,7 +73,7 @@ app.controller('loginController', ['$scope', 'facebookService', function ($scope
 
 }])
 
-app.controller('homeController', ['$scope', '$location', 'facebookService', function ($scope, $location, sAuth) {
+app.controller('homeController', ['$rootScope', '$scope', '$state', 'facebookService', function ($rootScope, $scope, $state, sAuth) {
   sAuth.isLogin()
 
   $scope.fbLogout = function () {
@@ -76,7 +82,28 @@ app.controller('homeController', ['$scope', '$location', 'facebookService', func
   }
 
   $scope.fbGetPageList = function () {
-    sAuth.fbGetPageList()
+    sAuth.fbGetPageList(function (response) {
+      if (response && !response.error) {
+        $rootScope.$apply(function () {
+          $rootScope.user.pages = {}
+          $rootScope.user.pages = response.data
+        })
+      }
+    })
   }
 
+}])
+
+app.controller('pageController', ['$scope', '$stateParams', 'facebookService', function ($scope, $stateParams, sAuth) {
+  $scope.pageId = $stateParams.pId
+  $scope.accessToken = $stateParams.access_token
+  sAuth.fbGetNotification({
+    id: $stateParams.pId,
+    accessToken: $stateParams.access_token
+  }, function (response) {
+    console.log(response)
+  })
+  $scope.init = function () {
+    console.log($stateParams.pId)
+  }
 }])
