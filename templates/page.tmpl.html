@@ -3,7 +3,17 @@
 </div>
 <div class="row">
 	<div class="list-group">
-		<a href="#" class="list-group-item" ng-repeat="item in pageObjs | orderBy:'-updated_time'">{{item.title}}</a>
+		<div class="list-group-item" ng-repeat="item in pageObjs | orderBy:'-updated_time'">
+			<div ng-if="item.type == 'status'">
+				<noti-list-temp type="status" value="item"></noti-list-temp>
+			</div>
+			<div ng-if="item.metadata.type == 'album'">
+				<noti-list-temp type="album" value="item"></noti-list-temp>
+			</div>
+			<div ng-if="item.metadata.type == 'photo'">
+				<noti-list-temp type="photo" value="item"></noti-list-temp>
+			</div>
+		</div>
 	</div>
 	<div class="text-center">
 		<a class="btn btn-danger btn-sm" ui-sref="^"><i class="glyphicon glyphicon-remove"></i> CLOSE</a>	

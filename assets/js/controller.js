@@ -57,18 +57,12 @@ control.controller('pageController', ['$scope', '$stateParams', '$q', 'facebookS
             accessToken: $scope.currentPage.accessToken
           }, function (result) {
             console.log(result)
-            if (result.type === undefined && result.images !== undefined) {
+            if (result.type === 'status') {
+              console.log(result.id + ' is Status Object!')
+            } else if (result.metadata.type === 'photo') {
               console.log(result.id + ' is Photo Object!')
-            }else if (result.type !== undefined) {
-              if (result.type === 'status') {
-                console.log(result.id + ' is Status Object!')
-              }else if (result.type === 'normal') {
-                console.log(result.id + ' is Post Object!')
-              } else {
-                console.log('Object ' + result.id + ' unknow type!')
-              }
-            } else {
-              console.log('Cannot find Object ' + result.id + ' type!')
+            } else if (result.metadata.type === 'album') {
+              console.log(result.id + ' is Album Object!')
             }
             defferred.resolve(result)
           })
@@ -96,3 +90,15 @@ control.controller('pageController', ['$scope', '$stateParams', '$q', 'facebookS
     })
   }
 }])
+
+control.directive('notiListTemp', function () {
+  return {
+    restrict: 'E',
+    scope: {
+      value: '='
+    },
+    templateUrl: function (elem, attr) {
+      return 'templates/' + attr.type + '.noti.tmpl.html'
+    }
+  }
+})

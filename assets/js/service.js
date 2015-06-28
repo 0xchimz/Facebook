@@ -115,8 +115,9 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
     fbAPI({
       path: params.objId,
       variable: {
-        fields: 'comments{comments,likes,from,message,like_count},picture,images,likes,height,width,updated_time,source,link',
-        access_token: params.accessToken
+        // fields: 'comments{comments,likes,from,message,like_count},picture,images,likes,height,width,updated_time,source,link',
+        access_token: params.accessToken,
+        metadata: '1'
       }
     }, callback)
   }
