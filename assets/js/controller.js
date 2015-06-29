@@ -40,7 +40,7 @@ control.controller('homeController', ['$rootScope', '$scope', '$state', 'faceboo
 control.controller('pageController', ['$scope', '$stateParams', '$q', 'facebookService', function ($scope, $stateParams, $q, sAuth) {
   $scope.currentPage = {}
   $scope.pageObjs = []
-  $scope.sender = {}
+  $scope.fromData = {}
 
   var fbNotification = function () {
     sAuth.fbGetPageNotification({
@@ -51,17 +51,14 @@ control.controller('pageController', ['$scope', '$stateParams', '$q', 'facebookS
       angular.forEach(response.notifications.data, function (value, key) {
         if (value.application.id !== '2409997254' && value.application.id !== '2530096808' && objList[value.object.id] === undefined) {
           var defferred = $q.defer()
-          console.log(value)
           sAuth.fbObject({
             objId: value.object.id,
             accessToken: $scope.currentPage.access_token
           }, function (result) {
             $scope.getFullComment(result.id, function (res) {
-              $scope.$apply(function () {
-                result.comments = res
-              })
+              result.comments = res
+              defferred.resolve(result)
             })
-            defferred.resolve(result)
           })
           objList[value.object.id] = defferred.promise
         }
@@ -76,22 +73,19 @@ control.controller('pageController', ['$scope', '$stateParams', '$q', 'facebookS
   }
 
   $scope.getFullComment = function (objId, callback) {
-    console.log($scope.accessToken)
     sAuth.fbGetFullComment({
       objId: objId,
       accessToken: $scope.access_token
     }, function (response) {
-      console.log(response)
       var tmpListComment = {}
-      tmpListComment = {}
       angular.forEach(response.comments.data, function (value, key) {
         if (tmpListComment[value.from.id] === undefined) {
           tmpListComment[value.from.id] = {}
           tmpListComment[value.from.id].comments = []
         }
         tmpListComment[value.from.id].comments.push(value)
+        callback(tmpListComment)
       })
-      callback(tmpListComment)
     })
   }
 
@@ -113,6 +107,5 @@ control.directive('notiListTemp', ['facebookService', function (fService) {
     templateUrl: function (elem, attr) {
       return 'templates/' + attr.type + '.noti.tmpl.html'
     }
-  // controller: function ($scope) {}
   }
 }])

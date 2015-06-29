@@ -15,7 +15,9 @@
 		<div ng-repeat="comment in user.comments">
 			<div>*{{comment.from.name}}+{{comment.message}}</div>
 			<div ng-repeat="subcomment in comment.comments.data">
-				<div>**{{subcomment.from.name}}+{{comment.message}}</div>
+				<div>
+					**{{subcomment.from.name}}+{{comment.message}}
+				</div>
 			</div>
 		</div>
 	</div>
