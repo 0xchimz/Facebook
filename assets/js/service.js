@@ -9,6 +9,11 @@ var service = angular.module('sellsukiService', [])
 
 service.factory('facebookService', ['$rootScope', '$state', function ($rootScope, $state) {
   this.user = {}
+  this.currentPage = null
+
+  var setCurrentPage = function (page) {
+    this.currentPage = page
+  }
 
   var goPageList = function () {
     $state.go('page', {})
@@ -30,7 +35,7 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
   var fbAuthStatus = function () {
     FB.Event.subscribe('auth.authResponseChange', function (res) {
       if (res.status === 'connected') {
-        $rootScope.accessToken = res.authResponse.accessToken
+        $rootScope.accessToken = this.accessToken = res.authResponse.accessToken
         fbUserInfo(goPageList)
       } else {
         goLoginPage()
@@ -106,7 +111,7 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
     fbAPI({
       path: params.pageId,
       variable: {
-        fields: 'name,access_token'
+        fields: 'name,access_token,photos,link'
       }
     }, callback)
   }
@@ -115,9 +120,28 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
     fbAPI({
       path: params.objId,
       variable: {
-        // fields: 'comments{comments,likes,from,message,like_count},picture,images,likes,height,width,updated_time,source,link',
         access_token: params.accessToken,
         metadata: '1'
+      }
+    }, callback)
+  }
+
+  var fbGetFullComment = function (params, callback) {
+    fbAPI({
+      path: params.objId,
+      variable: {
+        fields: 'comments.order(chronological){comments,message,from,created_time,comment_count}',
+        access_token: params.accessToken
+      }
+    }, callback)
+  }
+
+  var fbUserProfile = function (params, callback) {
+    fbAPI({
+      path: params.userId,
+      variable: {
+        fields: 'id,name,picture,link',
+        access_token: params.accessToken
       }
     }, callback)
   }
@@ -136,6 +160,9 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
     fbGetPageList: fbGetPageList,
     fbGetPageNotification: fbGetPageNotification,
     fbGetPageInformation: fbGetPageInformation,
-    fbObject: fbObject
+    fbObject: fbObject,
+    setCurrentPage: setCurrentPage,
+    fbGetFullComment: fbGetFullComment,
+    fbUserProfile: fbUserProfile
   }
 }])

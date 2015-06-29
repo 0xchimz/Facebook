@@ -9,3 +9,16 @@ $fa-font-path:	"../fonts/font-awesome";
 body {
 	padding-top: 20px;
 }
+
+.notification {
+	padding: 5px 15px 15px;
+	.status-message {
+		padding-top: 10px;
+		font-size: 1.5rem;
+		line-height: 1.38;
+		font-weight: normal;
+		p {
+			word-wrap: break-word;
+		}
+	}
+}

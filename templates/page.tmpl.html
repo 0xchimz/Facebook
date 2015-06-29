@@ -5,13 +5,13 @@
 	<div class="list-group">
 		<div class="list-group-item" ng-repeat="item in pageObjs | orderBy:'-updated_time'">
 			<div ng-if="item.type == 'status'">
-				<noti-list-temp type="status" value="item"></noti-list-temp>
+				<noti-list-temp type="status"></noti-list-temp>
 			</div>
 			<div ng-if="item.metadata.type == 'album'">
-				<noti-list-temp type="album" value="item"></noti-list-temp>
+				<noti-list-temp type="album"></noti-list-temp>
 			</div>
 			<div ng-if="item.metadata.type == 'photo'">
-				<noti-list-temp type="photo" value="item"></noti-list-temp>
+				<noti-list-temp type="photo"></noti-list-temp>
 			</div>
 		</div>
 	</div>

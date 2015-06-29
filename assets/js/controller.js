@@ -40,33 +40,30 @@ control.controller('homeController', ['$rootScope', '$scope', '$state', 'faceboo
 control.controller('pageController', ['$scope', '$stateParams', '$q', 'facebookService', function ($scope, $stateParams, $q, sAuth) {
   $scope.currentPage = {}
   $scope.pageObjs = []
+  $scope.sender = {}
 
   var fbNotification = function () {
     sAuth.fbGetPageNotification({
       pageId: $stateParams.pId,
-      accessToken: $scope.currentPage.accessToken
+      accessToken: $scope.currentPage.access_token
     }, function (response) {
-      var objList = []
-
+      var objList = {}
       angular.forEach(response.notifications.data, function (value, key) {
-        if (value.application.id !== '2409997254' && value.application.id !== '2530096808') {
+        if (value.application.id !== '2409997254' && value.application.id !== '2530096808' && objList[value.object.id] === undefined) {
           var defferred = $q.defer()
-          console.log(value.object.id)
+          console.log(value)
           sAuth.fbObject({
             objId: value.object.id,
-            accessToken: $scope.currentPage.accessToken
+            accessToken: $scope.currentPage.access_token
           }, function (result) {
-            console.log(result)
-            if (result.type === 'status') {
-              console.log(result.id + ' is Status Object!')
-            } else if (result.metadata.type === 'photo') {
-              console.log(result.id + ' is Photo Object!')
-            } else if (result.metadata.type === 'album') {
-              console.log(result.id + ' is Album Object!')
-            }
+            $scope.getFullComment(result.id, function (res) {
+              $scope.$apply(function () {
+                result.comments = res
+              })
+            })
             defferred.resolve(result)
           })
-          objList.push(defferred.promise)
+          objList[value.object.id] = defferred.promise
         }
       })
 
@@ -78,27 +75,44 @@ control.controller('pageController', ['$scope', '$stateParams', '$q', 'facebookS
     })
   }
 
+  $scope.getFullComment = function (objId, callback) {
+    console.log($scope.accessToken)
+    sAuth.fbGetFullComment({
+      objId: objId,
+      accessToken: $scope.access_token
+    }, function (response) {
+      console.log(response)
+      var tmpListComment = {}
+      tmpListComment = {}
+      angular.forEach(response.comments.data, function (value, key) {
+        if (tmpListComment[value.from.id] === undefined) {
+          tmpListComment[value.from.id] = {}
+          tmpListComment[value.from.id].comments = []
+        }
+        tmpListComment[value.from.id].comments.push(value)
+      })
+      callback(tmpListComment)
+    })
+  }
+
   $scope.init = function () {
     sAuth.fbGetPageInformation({
       pageId: $stateParams.pId
     }, function (response) {
       $scope.$apply(function () {
-        $scope.currentPage.accessToken = response.access_token
-        $scope.currentPage.name = response.name
+        $scope.currentPage = response
       })
       fbNotification()
     })
   }
 }])
 
-control.directive('notiListTemp', function () {
+control.directive('notiListTemp', ['facebookService', function (fService) {
   return {
     restrict: 'E',
-    scope: {
-      value: '='
-    },
     templateUrl: function (elem, attr) {
       return 'templates/' + attr.type + '.noti.tmpl.html'
     }
+  // controller: function ($scope) {}
   }
-})
+}])

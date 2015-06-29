@@ -1,2 +1,22 @@
-<div>Status</div>
-<div>{{value}}</div>
+<div class="row notification">
+	<div class="media">
+		<div class="media-left">
+			<a ng-href="{{currentPage.link}}" target="_bank">
+				<img class="media-object" ng-src="{{currentPage.photos.data[0].picture}}" width="45px" height="45px" />
+			</a>
+		</div>
+		<div class="media-body">
+			<h4 class="media-heading">{{currentPage.name}}</h4>
+			<small>{{item.created_time}}</small>
+		</div>
+	</div>
+	<div class="status-message"><p>{{item.message}}</p></div>
+	<div ng-repeat="user in item.comments">
+		<div ng-repeat="comment in user.comments">
+			<div>*{{comment.from.name}}+{{comment.message}}</div>
+			<div ng-repeat="subcomment in comment.comments.data">
+				<div>**{{subcomment.from.name}}+{{comment.message}}</div>
+			</div>
+		</div>
+	</div>
+</div>
