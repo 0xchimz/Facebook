@@ -11,7 +11,7 @@ body {
 }
 
 .notification {
-	padding: 5px 15px 15px;
+	padding: 5px 15px 0px 15px;
 	.status-message {
 		padding-top: 10px;
 		font-size: 1.5rem;
@@ -21,8 +21,108 @@ body {
 			word-wrap: break-word;
 		}
 	}
+	a {
+		color: #3b5998;
+		cursor: pointer;
+		text-decoration: none;
+	}
+}
+
+.object {
+	.content {
+		padding: 10px 15px;
+		border-bottom: 1px solid #e1e2e3;
+	}
+	.comment-list {
+		background: #f6f7f8;
+		padding: 10px 15px 0px;
+	}
+	.list-group-item {
+		padding: 0px;
+	}
 }
 
 .comment {
-	padding: 5px 2px 5px;
+	padding: 5px 0px 5px;
+	.left {
+		width: 45px;
+		float: left;
+	}
+	.body {
+		width: calc(100% - 45px);
+		float: left;
+		padding-left: 10px;
+	}
+	.comment-from {
+		line-height: 1.34;
+		font-weight: bold;
+	}
+	.comment-message {
+		word-wrap: break-word;
+		line-height: 1.34;
+	}
+	.comment-action {
+		padding: 5px 0px 5px;
+		width: 100%;
+		display: block;
+		a {
+			font-size: 100%;
+		}
+	}
+	a {
+		color: #3b5998;
+		cursor: pointer;
+		text-decoration: none;
+	}
+}
+.subcomment-list {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	position: relative;
+	.subcomment {
+		padding: 0px 12px 0px 44px;
+		margin-top: 0px;
+		.left {
+			width: 25px;
+			float: left;
+		}
+		.body {
+			width: calc(100% - 25px);
+			float: left;
+			padding-left: 10px;
+		}
+		.comment-from {
+			line-height: 1.34;
+			font-weight: bold;
+		}
+		.comment-message {
+			word-wrap: break-word;
+			line-height: 1.34;
+		}
+		.comment-action {
+			padding: 5px 0px 5px;
+			width: 100%;
+			display: block;
+			a {
+				font-size: 100%;
+			}
+		}
+		.subcomment {
+			padding: 8px 12px 6px 44px;
+		}
+		.border:after {
+			border-left: 2px solid #dcdee3;
+			content: '';
+			left: 30px;
+			position: absolute;
+			width: 0px;
+			bottom: 0;
+  			top: 4px;
+		}
+		a {
+			color: #3b5998;
+			cursor: pointer;
+			text-decoration: none;
+		}
+	}
 }

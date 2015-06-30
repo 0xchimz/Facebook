@@ -1,39 +1,65 @@
 <div class="row notification">
-	<div class="media">
-		<div class="media-left">
-			<a ng-href="{{currentPage.link}}" target="_bank">
-				<img class="media-object" ng-src="{{currentPage.photos.data[0].picture}}" width="45px" height="45px" />
-			</a>
-		</div>
-		<div class="media-body">
-			<h4 class="media-heading">{{currentPage.name}}</h4>
-			<small>{{item.created_time}}</small>
-		</div>
-	</div>
-	<div class="status-message"><p>{{item.message}}</p></div>
-	<div ng-repeat="user in item.comments">
-		<div ng-repeat="comment in user.comments" class="comment">
-			<div class="media">
-				<div class="media-left">
-					<a ng-href="http://www.facebook.com/{{comment.from.id}}" target="_bank">
-						<img class="media-object" ng-src="https://graph.facebook.com/{{comment.from.id}}/picture" width="45px" height="45px" />
-					</a>
-				</div>
-				<div class="media-body">
-					<h4 class="media-heading">{{comment.from.name}}</h4>
-					<small>{{comment.message}}</small>
-				</div>
+	<div class="content">
+		<div class="media">
+			<div class="media-left">
+				<a ng-href="{{currentPage.link}}" target="_bank">
+					<img class="media-object" ng-src="{{currentPage.photos.data[0].picture}}" width="45px" height="45px" />
+				</a>
 			</div>
-			<div ng-repeat="subcomment in comment.comments.data">
-				<div class="media">
-					<div class="media-left">
-						<a ng-href="http://www.facebook.com/{{subcomment.from.id}}" target="_bank">
-							<img class="media-object" ng-src="https://graph.facebook.com/{{subcomment.from.id}}/picture" width="45px" height="45px" />
+			<div class="media-body">
+				<h4 class="media-heading"><a ng-href="http://www.facebook.com/{{currentPage.id}}" target="_bank">{{currentPage.name}}</a></h4>
+				<small>{{item.created_time}}</small>
+			</div>
+		</div>
+		<div class="status-message"><p>{{item.message}}</p></div>
+	</div>
+	<div class="comment-list">
+		<div ng-repeat="user in item.comments">
+			<div ng-repeat="comment in user.comments track by comment.id" class="comment">
+				<div class="media" ng-init="reply_comment.id = 0">
+					<div class="media-left left">
+						<a ng-href="http://www.facebook.com/{{comment.from.id}}" target="_bank">
+							<img class="media-object" ng-src="https://graph.facebook.com/{{comment.from.id}}/picture" width="45px" height="45px" />
 						</a>
 					</div>
-					<div class="media-body">
-						<h4 class="media-heading">{{subcomment.from.name}}</h4>
-						<small>{{subcomment.message}}</small>
+					<div class="media-body body">
+						<span class="media-heading comment-from">
+							<a ng-href="http://www.facebook.com/{{comment.from.id}}" target="_bank">{{comment.from.name}}</a>
+						</span>
+						<span class="comment-message">{{comment.message}}</span>
+						<small class="comment-action"><a ng-href="#" target="_bank">Like</a> <a ng-click="reply_comment.id = !reply_comment.id" target="_bank">Reply</a> {{comment.created_time}}</small>
+					</div>
+				</div>
+				<div class="subcomment-list">
+					<div ng-repeat="subcomment in comment.comments.data">
+						<div class="media subcomment">
+							<div class="border">
+								<div class="media-left left">
+									<a ng-href="http://www.facebook.com/{{subcomment.from.id}}" target="_bank">
+										<img class="media-object" ng-src="https://graph.facebook.com/{{subcomment.from.id}}/picture" width="25px" height="25px" />
+									</a>
+								</div>
+								<div class="media-body body">
+									<span class="media-heading comment-from">
+										<a ng-href="http://www.facebook.com/{{subcomment.from.id}}" target="_bank">{{subcomment.from.name}}</a>
+									</span>
+									<span class="comment-message">{{subcomment.message}}</span>
+									<small class="comment-action"><a ng-href="#" target="_bank">Like</a> {{comment.created_time}}</small>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="media subcomment" ng-show="reply_comment.id">
+						<div class="border">
+							<div class="media-left left">
+								<a ng-href="http://www.facebook.com/{{currentPage.id}}" target="_bank">
+									<img class="media-object" ng-src="https://graph.facebook.com/{{currentPage.id}}/picture" width="25px" height="25px" />
+								</a>
+							</div>
+							<div class="media-body body">
+								Replay
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
