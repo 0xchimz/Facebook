@@ -14,4 +14,4 @@ before_script:
 - 'bower install'
 - 'bower-installer'
 
-script: gulp
+# script: gulp -R
