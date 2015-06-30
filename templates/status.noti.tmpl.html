@@ -12,7 +12,7 @@
 	</div>
 	<div class="status-message"><p>{{item.message}}</p></div>
 	<div ng-repeat="user in item.comments">
-		<div ng-repeat="comment in user.comments">
+		<div ng-repeat="comment in user.comments" class="comment">
 			<div class="media">
 				<div class="media-left">
 					<a ng-href="http://www.facebook.com/{{comment.from.id}}" target="_bank">
@@ -20,7 +20,7 @@
 					</a>
 				</div>
 				<div class="media-body">
-					<h6 class="media-heading">{{comment.from.name}}</h6>
+					<h4 class="media-heading">{{comment.from.name}}</h4>
 					<small>{{comment.message}}</small>
 				</div>
 			</div>
@@ -32,7 +32,7 @@
 						</a>
 					</div>
 					<div class="media-body">
-						<h6 class="media-heading">{{subcomment.from.name}}</h6>
+						<h4 class="media-heading">{{subcomment.from.name}}</h4>
 						<small>{{subcomment.message}}</small>
 					</div>
 				</div>
