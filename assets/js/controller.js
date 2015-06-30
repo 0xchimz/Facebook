@@ -40,7 +40,6 @@ control.controller('homeController', ['$rootScope', '$scope', '$state', 'faceboo
 control.controller('pageController', ['$scope', '$stateParams', '$q', 'facebookService', function ($scope, $stateParams, $q, sAuth) {
   $scope.currentPage = {}
   $scope.pageObjs = []
-  $scope.fromData = {}
 
   var fbNotification = function () {
     sAuth.fbGetPageNotification({

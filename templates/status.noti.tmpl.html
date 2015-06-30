@@ -13,10 +13,28 @@
 	<div class="status-message"><p>{{item.message}}</p></div>
 	<div ng-repeat="user in item.comments">
 		<div ng-repeat="comment in user.comments">
-			<div>*{{comment.from.name}}+{{comment.message}}</div>
+			<div class="media">
+				<div class="media-left">
+					<a ng-href="http://www.facebook.com/{{comment.from.id}}" target="_bank">
+						<img class="media-object" ng-src="https://graph.facebook.com/{{comment.from.id}}/picture" width="45px" height="45px" />
+					</a>
+				</div>
+				<div class="media-body">
+					<h6 class="media-heading">{{comment.from.name}}</h6>
+					<small>{{comment.message}}</small>
+				</div>
+			</div>
 			<div ng-repeat="subcomment in comment.comments.data">
-				<div>
-					**{{subcomment.from.name}}+{{comment.message}}
+				<div class="media">
+					<div class="media-left">
+						<a ng-href="http://www.facebook.com/{{subcomment.from.id}}" target="_bank">
+							<img class="media-object" ng-src="https://graph.facebook.com/{{subcomment.from.id}}/picture" width="45px" height="45px" />
+						</a>
+					</div>
+					<div class="media-body">
+						<h6 class="media-heading">{{subcomment.from.name}}</h6>
+						<small>{{subcomment.message}}</small>
+					</div>
 				</div>
 			</div>
 		</div>
