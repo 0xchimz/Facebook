@@ -46,7 +46,7 @@ control.controller('pageController', ['$scope', '$stateParams', '$q', 'facebookS
       pageId: $stateParams.pId,
       accessToken: $scope.currentPage.access_token
     }, function (response) {
-      var objList = {}
+      var objList = []
       angular.forEach(response.notifications.data, function (value, key) {
         if (value.application.id !== '2409997254' && value.application.id !== '2530096808' && objList[value.object.id] === undefined) {
           var defferred = $q.defer()
@@ -59,12 +59,13 @@ control.controller('pageController', ['$scope', '$stateParams', '$q', 'facebookS
               defferred.resolve(result)
             })
           })
-          objList[value.object.id] = defferred.promise
+          objList.push(defferred.promise)
         }
       })
 
       $q.all(objList).then(function (res) {
         if (res && !res.error) {
+          console.log(res)
           $scope.pageObjs = res
         }
       })
@@ -76,7 +77,6 @@ control.controller('pageController', ['$scope', '$stateParams', '$q', 'facebookS
       objId: objId,
       accessToken: $scope.currentPage.access_token
     }, function (response) {
-      console.log(response)
       var tmpListComment = {}
       angular.forEach(response.comments.data, function (value, key) {
         if (tmpListComment[value.from.id] === undefined) {
@@ -124,8 +124,6 @@ control.controller('likeController', ['$scope', 'facebookService', function ($sc
 control.controller('replyMessage', ['$scope', 'facebookService', function ($scope, fbService) {
   $scope.newReply = []
   $scope.reply = function (commentId, list) {
-    console.log($scope.currentPage)
-    console.log(commentId)
     var tmp = {
       message: $scope.replyMessage,
       from: {
@@ -143,7 +141,6 @@ control.controller('replyMessage', ['$scope', 'facebookService', function ($scop
       message: tmpMessage,
       accessToken: $scope.currentPage.access_token
     }, function (res) {
-      console.log(res.id)
       tmp.id = res.id
     })
   }

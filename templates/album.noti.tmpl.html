@@ -1,2 +1,106 @@
-<div>Album</div>
-<div>{{item}}</div>
+<div class="row notification">
+	<div class="content">
+		<div class="media">
+			<div class="media-left">
+				<a ng-href="{{currentPage.link}}" target="_bank">
+					<img class="media-object" ng-src="{{currentPage.photos.data[0].picture}}" width="45px" height="45px" />
+				</a>
+			</div>
+			<div class="media-body">
+				<h4 class="media-heading">
+					<a ng-href="http://www.facebook.com/{{currentPage.id}}" target="_bank">{{currentPage.name}}</a>
+				</h4>
+				<small>{{item.created_time}}</small>
+			</div>
+		</div>
+		<div class="status-message">
+			<p><strong>{{item.name}}</strong></p>
+			<p style="white-space: pre;">{{item.description}}</p>
+			<p>
+				<img class="media-object" ng-src="{{item.source}}" />
+			</p>
+		</div>
+	</div>
+	<div class="comment-list">
+		<div ng-repeat="user in item.comments">
+			<div ng-repeat="comment in user.comments track by comment.id" class="comment">
+				<div class="media" ng-init="reply_comment.id = 0">
+					<div class="media-left left">
+						<a ng-href="http://www.facebook.com/{{comment.from.id}}" target="_bank">
+							<img class="media-object" ng-src="https://graph.facebook.com/{{comment.from.id}}/picture" width="45px" height="45px" />
+						</a>
+					</div>
+					<div class="media-body body">
+						<span class="media-heading comment-from">
+							<a ng-href="http://www.facebook.com/{{comment.from.id}}" target="_bank">{{comment.from.name}}</a>
+						</span>
+						<span class="comment-message">{{comment.message}}</span>
+						<small class="comment-action" ng-controller="likeController">
+							<a target="_bank" ng-click="doLike(comment)">
+								<span ng-show="!comment.user_likes">Like</span>
+								<span ng-show="comment.user_likes">Unlike</span>
+							</a> 
+							<a ng-click="reply_comment.id = !reply_comment.id" target="_bank" >Reply</a> {{comment.created_time}}
+						</small>
+					</div>
+				</div>
+				<div class="subcomment-list" ng-controller="replyMessage">
+					<div ng-repeat="subcomment in comment.comments.data" class="media subcomment">
+						<div class="border">
+							<div class="media-left left">
+								<a ng-href="http://www.facebook.com/{{subcomment.from.id}}" target="_bank">
+									<img class="media-object" ng-src="https://graph.facebook.com/{{subcomment.from.id}}/picture" width="25px" height="25px" />
+								</a>
+							</div>
+							<div class="media-body body">
+								<span class="media-heading comment-from">
+									<a ng-href="http://www.facebook.com/{{subcomment.from.id}}" target="_bank">{{subcomment.from.name}}</a>
+								</span>
+								<span class="comment-message">{{subcomment.message}}</span>
+								<small class="comment-action" ng-controller="likeController">
+									<a target="_bank" ng-click="doLike(subcomment)">
+										<span ng-show="!subcomment.user_likes">Like</span>
+										<span ng-show="subcomment.user_likes">Unlike</span>
+									</a> {{subcomment.created_time}}
+								</small>
+							</div>
+						</div>
+					</div>
+					<div ng-repeat="newcomment in newReply" class="media subcomment">
+						<div class="border-new">
+							<div class="media-left left">
+								<a ng-href="http://www.facebook.com/{{newcomment.from.id}}" target="_bank">
+									<img class="media-object" ng-src="https://graph.facebook.com/{{newcomment.from.id}}/picture" width="25px" height="25px" />
+								</a>
+							</div>
+							<div class="media-body body">
+								<span class="media-heading comment-from">
+									<a ng-href="http://www.facebook.com/{{newcomment.from.id}}" target="_bank">{{newcomment.from.name}}</a>
+								</span>
+								<span class="comment-message">{{newcomment.message}}</span>
+								<small class="comment-action" ng-controller="likeController">
+									<a target="_bank" ng-click="doLike(newcomment)">
+										<span ng-show="!newcomment.user_likes">Like</span>
+										<span ng-show="newcomment.user_likes">Unlike</span>
+									</a> {{newcomment.created_time}}
+								</small>
+							</div>
+						</div>
+					</div>
+					<div class="media reply subcomment" ng-show="reply_comment.id">
+						<div class="border">
+							<div class="media-left left">
+								<a ng-href="http://www.facebook.com/{{currentPage.id}}" target="_bank">
+									<img class="media-object" ng-src="https://graph.facebook.com/{{currentPage.id}}/picture" width="25px" height="25px" />
+								</a>
+							</div>
+							<div class="media-body body">
+								<input type="text" placeholder="Write a reply..." ng-model="replyMessage" ui-keypress="{'enter' : 'reply(comment.id, comment.comments.data)'}" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
