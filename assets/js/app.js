@@ -8,6 +8,7 @@
 /* global $ */
 var app = angular.module('sellsukiApp', [
   'ui.router',
+  'ui.keypress',
   'sellsukiService',
   'sellsukiController'
 ])

@@ -21,12 +21,13 @@
     "bootstrap-sass": "~3.3.5",
     "jquery": "~2.1.4",
     "bootstrap-social": "~4.9.1",
-    "angular-ui-router": "~0.2.15"
+    "angular-ui-router": "~0.2.15",
+    "angular-ui-utils": "bower-keypress"
   },
   "install": {
     "base": "assets",
     "path": {
-      "js": "/js",
+      "js": "/javascript",
       "eot": "/fonts",
       "svg": "/fonts",
       "ttf": "/fonts",
@@ -38,6 +39,7 @@
     "sources": {
       "angular": "bower_components/angular/angular.min.js",
       "angular-ui-router": "bower_components/angular-ui-router/release/angular-ui-router.min.js",
+      "angular-ui-utils" : "bower_components/angular-ui-utils/*.min.js",
       "jquery": "bower_components/jquery/dist/jquery.min.js",
       "bootstrap": [
         "bower_components/bootstrap/fonts/*"

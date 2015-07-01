@@ -62,7 +62,7 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
         console.log('User cancelled login or did not fully authorize.')
       }
     }, {
-      scope: 'public_profile,email,manage_pages'
+      scope: 'public_profile,email,manage_pages,publish_pages'
     })
   }
 
@@ -130,7 +130,7 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
     fbAPI({
       path: params.objId,
       variable: {
-        fields: 'comments.order(chronological){comments,message,from,created_time,comment_count}',
+        fields: 'comments.order(chronological){comments,message,from,created_time,comment_count,user_likes}',
         access_token: params.accessToken
       }
     }, callback)
@@ -146,8 +146,35 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
     }, callback)
   }
 
+  var fbPostComment = function (params, callback) {
+    fbAPI({
+      path: '/' + params.commentId + '/comments',
+      method: 'POST',
+      variable: {
+        message: params.message,
+        access_token: params.accessToken
+      }
+    }, callback)
+  }
+
+  var fbGetComment = function (params, callback) {
+    fbAPI({
+      path: params.commentId
+    }, callback)
+  }
+
+  var fbLike = function (params, callback) {
+    fbAPI({
+      path: params.objId + '/likes',
+      method: params.method,
+      variable: {
+        access_token: params.accessToken
+      }
+    }, callback)
+  }
+
   var fbAPI = function (params, callback) {
-    FB.api(params.path, params.variable, callback)
+    FB.api(params.path, params.method, params.variable, callback)
   }
 
   return {
@@ -163,6 +190,9 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
     fbObject: fbObject,
     setCurrentPage: setCurrentPage,
     fbGetFullComment: fbGetFullComment,
-    fbUserProfile: fbUserProfile
+    fbUserProfile: fbUserProfile,
+    fbPostComment: fbPostComment,
+    fbGetComment: fbGetComment,
+    fbLike: fbLike
   }
 }])
