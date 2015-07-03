@@ -148,7 +148,7 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
 
   var fbPostComment = function (params, callback) {
     fbAPI({
-      path: '/' + params.commentId + '/comments',
+      path: '/v2.3/' + params.commentId + '/comments',
       method: 'POST',
       variable: {
         message: params.message,

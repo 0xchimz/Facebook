@@ -19,9 +19,9 @@ body {
 }
 .listing {
 	margin-left: 35%;
-  	width: 65%;
-  	padding-left: 0;
-  	padding-right: 1.5rem;
+	width: 65%;
+	padding-left: 0;
+	padding-right: 1.5rem;
 }
 .notification {
 	padding: 5px 15px 0px 15px;
@@ -48,7 +48,7 @@ body {
 	}
 	.comment-list {
 		background: #f6f7f8;
-		padding: 10px 15px 0px;
+		padding: 10px 15px;
 	}
 	.list-group-item {
 		padding: 0px;
@@ -59,13 +59,13 @@ body {
 }
 
 .comment {
-	padding: 5px 0px 5px;
+	padding: 5px 0px 0px;
 	.left {
-		width: 45px;
+		width: 33px;
 		float: left;
 	}
 	.body {
-		width: calc(100% - 45px);
+		width: calc(100% - 33px);
 		float: left;
 		padding-left: 10px;
 	}
@@ -91,9 +91,27 @@ body {
 		text-decoration: none;
 	}
 }
+.subcomment-list-border-new:after {
+	background-color: #5890ff;
+	bottom: 0;
+	content: '';
+	left: 30px;
+	position: absolute;
+	top: 0;
+	width: 2px;
+}
+.subcomment-list-border:after {
+	border-left: 2px solid #dcdee3;
+	content: '';
+	left: 30px;
+	position: absolute;
+	width: 0px;
+	bottom: 0;
+	top: 0px;
+}
 .subcomment-list {
-	padding-top: 5px;
-	padding-bottom: 5px;
+	// padding-top: 5px;
+	// padding-bottom: 5px;
 	position: relative;
 	.subcomment {
 		padding: 0px 12px 0px 44px;
@@ -149,12 +167,45 @@ body {
 		}
 	}
 }
-.reply {
+.reply.subcomment {
 	input {
+		width: 100%;
+		padding-left: 5px;
+	}
+}
+.reply.comment {
+	input {
+		line-height: 27px;
 		width: 100%;
 		padding-left: 5px;
 	}
 }
 .badge.red {
 	background-color: #d9534f;
+}
+.new-comment-border{
+	position: relative;
+  	margin-left: -16px;
+  	.subcomment-list {
+  		.subcomment {
+  			padding-left: 44px;
+  			margin-left: 16px;
+  		}
+  	}
+  	.reply.media {
+  		padding-left: 44px;
+  		margin-left: 16px;
+  	}
+  	.media {
+  		padding-left: 16px
+  	}
+}
+.new-comment-border:after {
+	background-color: #5890ff;
+	bottom: 0;
+	content: '';
+	left: 0px;
+	position: absolute;
+	top: 0;
+	width: 2px;
 }

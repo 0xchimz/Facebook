@@ -168,16 +168,47 @@ control.controller('likeController', ['$scope', 'facebookService', function ($sc
   }
 }])
 
+control.controller('commentObj', ['$scope', 'facebookService', function ($scope, fbService) {
+  $scope.newComment = []
+  $scope.sendComment = function (commentId) {
+    console.log(commentId)
+    var tmp = {
+      message: $scope.commentMessage,
+      from: {
+        id: $scope.currentPage.id,
+        name: $scope.currentPage.name
+      },
+      id: null,
+      created_time: new Date()
+    }
+    var tmpMessage = $scope.commentMessage
+    $scope.commentMessage = ''
+    $scope.newComment.push(tmp)
+    fbService.fbPostComment({
+      commentId: commentId,
+      message: tmpMessage,
+      accessToken: $scope.currentPage.access_token
+    }, function (res) {
+      $scope.$apply(function () {
+        tmp.id = res.id
+      })
+      console.log(res.id)
+    })
+  }
+}])
+
 control.controller('replyMessage', ['$scope', 'facebookService', function ($scope, fbService) {
   $scope.newReply = []
-  $scope.reply = function (commentId, list) {
+
+  $scope.reply = function (commentId) {
+    console.log(commentId)
     var tmp = {
       message: $scope.replyMessage,
       from: {
         id: $scope.currentPage.id,
         name: $scope.currentPage.name
       },
-      id: '',
+      id: null,
       created_time: new Date()
     }
     var tmpMessage = $scope.replyMessage
@@ -188,7 +219,10 @@ control.controller('replyMessage', ['$scope', 'facebookService', function ($scop
       message: tmpMessage,
       accessToken: $scope.currentPage.access_token
     }, function (res) {
-      tmp.id = res.id
+      $scope.$apply(function () {
+        tmp.id = res.id
+      })
+      console.log(res)
     })
   }
 }])
