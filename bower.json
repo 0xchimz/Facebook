@@ -22,7 +22,8 @@
     "jquery": "~2.1.4",
     "bootstrap-social": "~4.9.1",
     "angular-ui-router": "~0.2.15",
-    "angular-ui-utils": "bower-keypress"
+    "angular-ui-utils": "bower-keypress",
+    "jquery.slimscroll.min": "https://raw.githubusercontent.com/rochal/jQuery-slimScroll/master/jquery.slimscroll.min.js"
   },
   "install": {
     "base": "assets",
@@ -39,8 +40,13 @@
     "sources": {
       "angular": "bower_components/angular/angular.min.js",
       "angular-ui-router": "bower_components/angular-ui-router/release/angular-ui-router.min.js",
-      "angular-ui-utils" : "bower_components/angular-ui-utils/*.min.js",
+      "angular-ui-utils": "bower_components/angular-ui-utils/*.min.js",
       "jquery": "bower_components/jquery/dist/jquery.min.js",
+      "jquery.slimscroll.min" : {
+        "mapping" : [
+        {"bower_components/jquery.slimscroll.min/index.js" : "jquery.slimscroll.min.js"}
+        ]
+      },
       "bootstrap": [
         "bower_components/bootstrap/fonts/*"
       ],
