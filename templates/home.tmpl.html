@@ -1,16 +1,13 @@
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-4 col-md-offset-4">
 		<button class="btn btn-block btn-social btn-pinterest" ng-click="fbLogout()">
 			<i class="fa fa-facebook"></i> Logout from Facebook
 		</button>
 		<h2></h2>
 		<div class="list-group" ng-init="fbGetPageList()">
-			<a ui-sref=".comment({pId: '{{page.id}}'})" class="list-group-item" ng-repeat="page in user.pages">
-				{{page.name}}
+			<a ui-sref="notification({pId: '{{page.id}}'})" class="list-group-item" ng-repeat="page in user.pages">
+				{{page.name}} <span class="badge red" ng-if="page.unread_notif_count != 0">{{page.unread_notif_count}}</span>
 			</a>
 		</div>
-	</div>
-	<div class="col-md-8">
-		<ui-view/>
 	</div>
 </div>

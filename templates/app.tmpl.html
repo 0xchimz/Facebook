@@ -1,0 +1,23 @@
+<div class="row">
+	<div class="masthead">
+		<div class="panel panel-default" ng-init="init()">
+			<div class="panel-heading">{{currentPage.name}}</div>
+			<div class="panel-body">
+				<p>{{currentPage.about}}</p>
+			</div>
+			<div class="panel-footer">
+				<button class="btn btn-block btn-social btn-pinterest" ng-click="fbLogout()">
+					<i class="fa fa-facebook"></i> Logout from Facebook
+				</button>
+			</div>
+		</div>
+		<div class="list-group">
+			<a class="list-group-item" ng-repeat="notification in notificationList" ui-sref=".object({objId: '{{notification.object.id}}'})">
+				{{notification.title}}
+			</a>
+		</div>
+	</div>
+	<div class="listing">
+		<ui-view/>
+	</div>
+</div>

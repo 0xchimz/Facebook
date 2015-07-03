@@ -90,7 +90,7 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
     fbAPI({
       path: 'me/accounts',
       variable: {
-        fields: 'id,name',
+        fields: 'id,name,unread_notif_count',
         limits: '250'
       }
     }, callback)
@@ -111,7 +111,7 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
     fbAPI({
       path: params.pageId,
       variable: {
-        fields: 'name,access_token,photos,link'
+        fields: 'name,access_token,photos,link,description,about'
       }
     }, callback)
   }

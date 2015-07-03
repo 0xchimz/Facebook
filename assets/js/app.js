@@ -27,8 +27,13 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
       templateUrl: 'templates/home.tmpl.html',
       controller: 'homeController'
     })
-    .state('page.comment', {
-      url: '/:pId',
+    .state('notification', {
+      url: '/app/:pId',
+      templateUrl: 'templates/app.tmpl.html',
+      controller: 'appController'
+    })
+    .state('notification.object', {
+      url: '/:objId',
       templateUrl: 'templates/page.tmpl.html',
       controller: 'pageController'
     })

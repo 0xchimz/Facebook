@@ -1,21 +1,15 @@
-<div ng-init="init()">
-	<h3>{{currentPage.name}}</h3>
-</div>
-<div class="row object">
+<div class="object" ng-init="init()">
 	<div class="list-group">
-		<div class="list-group-item" ng-repeat="item in pageObjs | orderBy:'-updated_time'">
-			<div ng-if="item.type == 'status'">
+		<div class="list-group-item">
+			<div ng-if="pageObjs.type == 'status'">
 				<noti-list-temp type="status"></noti-list-temp>
 			</div>
-			<div ng-if="item.metadata.type == 'album'">
+			<div ng-if="pageObjs.metadata.type == 'album'">
 				<noti-list-temp type="album"></noti-list-temp>
 			</div>
-			<div ng-if="item.metadata.type == 'photo'">
+			<div ng-if="pageObjs.metadata.type == 'photo'">
 				<noti-list-temp type="photo"></noti-list-temp>
 			</div>
 		</div>
-	</div>
-	<div class="text-center">
-		<a class="btn btn-danger btn-sm" ui-sref="^"><i class="glyphicon glyphicon-remove"></i> CLOSE</a>	
 	</div>
 </div>
