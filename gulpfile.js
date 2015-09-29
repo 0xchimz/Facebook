@@ -5,8 +5,18 @@ var minifyCSS = require('gulp-minify-css')
 var rename = require('gulp-rename')
 var uglify = require('gulp-uglify')
 var replace = require('gulp-replace')
+var shell = require('gulp-shell')
 
 var scss_file = 'assets/stylesheets/style.scss'
+
+gulp.task('docs', shell.task([
+  'node node_modules/jsdoc/jsdoc.js ' +
+  '-c node_modules/angular-jsdoc/common/conf.json ' +
+  '-t node_modules/angular-jsdoc/default ' +
+  '-d docs ' +
+  './README.md ./.json ' +
+  '-r assets'
+]))
 
 gulp.task('scss', function () {
   return sass(scss_file, { style: 'nested' })
@@ -30,4 +40,8 @@ gulp.task('watch', function () {
   gulp.watch('assets/js/*.js', ['js'])
 })
 
-gulp.task('default', ['watch'])
+gulp.task('watch-withoutjs', function () {
+  gulp.watch(scss_file, ['scss'])
+})
+
+gulp.task('default', ['watch-withoutjs', 'docs'])

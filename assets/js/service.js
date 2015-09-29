@@ -1,7 +1,11 @@
 /**
- * Service Module
- *
- * All service is here.
+ * @memberof Service
+ * @ngdoc service
+ * @name facebookService
+ * @param {service} $rootScope Root Control Scope
+ * @param {service} $state Control state service
+ * @description 
+ *   Connect with Facebook API.
  */
 /* global angular */
 /* global FB */
@@ -22,7 +26,11 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
   var goLoginPage = function () {
     $state.go('login', {})
   }
-
+  /**
+  * Get Profile information
+  * @memberof facebookService
+  * @param {function} callback a callback function
+  */
   var fbUserInfo = function (callback) {
     FB.api('/me', function (res) {
       $rootScope.$apply(function () {
@@ -31,6 +39,10 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
       })
     })
   }
+  /**
+  * Authenticate with Facebook
+  * @memberof facebookService
+  */
 
   var fbAuthStatus = function () {
     FB.Event.subscribe('auth.authResponseChange', function (res) {
@@ -43,6 +55,10 @@ service.factory('facebookService', ['$rootScope', '$state', function ($rootScope
     })
   }
 
+  /**
+  * Logout from Facebook
+  * @memberof facebookService
+  */
   var fbLogout = function () {
     FB.logout(function (response) {
       $rootScope.$apply(function () {

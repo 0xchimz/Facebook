@@ -13,7 +13,7 @@
 				</div>
 			</div>
 		</div>
-		<div ng-repeat="newcomment in newComment track by comment.id" class="media new-comment-border">
+		<div ng-repeat="newcomment in newComment" class="media new-comment-border">
 			<div class="media" ng-init="reply_comment.id = 0">
 				<div class="media-left left">
 					<a ng-href="http://www.facebook.com/{{newcomment.from.id}}" target="_bank">

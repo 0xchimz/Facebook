@@ -1,8 +1,3 @@
-/**
-* sellsukiFacebook Module
-*
-* Load all Facebook page's comment order by update time, which seller can reply comment.
-*/
 /* global angular */
 /* global FB */
 /* global $ */
